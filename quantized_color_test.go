@@ -2,19 +2,21 @@ package vibrant
 
 import (
 	"image/color"
+	"strconv"
 	"testing"
 )
 
 func TestNRGBAToQuantizedColorAndBack(t *testing.T) {
 	tests := [][]color.Color{
 		[]color.Color{color.NRGBA{0, 0, 0, 0xFF}, QuantizedColor(0), color.NRGBA{0, 0, 0, 0xFF}},
-		[]color.Color{color.NRGBA{0x07, 0x07, 0x07, 0xFF}, QuantizedColor(0), color.NRGBA{0, 0, 0, 0xFF}},
+		[]color.Color{color.NRGBA{0x03, 0x03, 0x03, 0xFF}, QuantizedColor(0), color.NRGBA{0, 0, 0, 0xFF}},
+		[]color.Color{color.NRGBA{0x04, 0x04, 0x04, 0xFF}, QuantizedColor(0x421), color.NRGBA{0x08, 0x08, 0x08, 0xFF}},
 		[]color.Color{color.NRGBA{0x08, 0x08, 0x08, 0xFF}, QuantizedColor(0x421), color.NRGBA{0x08, 0x08, 0x08, 0xFF}},
 		[]color.Color{color.NRGBA{0x0F, 0x0F, 0x0F, 0xFF}, QuantizedColor(0x421), color.NRGBA{0x08, 0x08, 0x08, 0xFF}},
 		[]color.Color{color.NRGBA{0x10, 0x10, 0x10, 0xFF}, QuantizedColor(0x842), color.NRGBA{0x10, 0x10, 0x10, 0xFF}},
 		[]color.Color{color.NRGBA{0xF0, 0xF0, 0xF0, 0xFF}, QuantizedColor(0x7BDE), color.NRGBA{0xF0, 0xF0, 0xF0, 0xFF}},
-		[]color.Color{color.NRGBA{0xF7, 0xF7, 0xF7, 0xFF}, QuantizedColor(0x7BDE), color.NRGBA{0xF0, 0xF0, 0xF0, 0xFF}},
-		[]color.Color{color.NRGBA{0xF8, 0xF8, 0xF8, 0xFF}, QuantizedColor(0x7FFF), color.NRGBA{0xF8, 0xF8, 0xF8, 0xFF}},
+		[]color.Color{color.NRGBA{0xF3, 0xF3, 0xF3, 0xFF}, QuantizedColor(0x7BDE), color.NRGBA{0xF0, 0xF0, 0xF0, 0xFF}},
+		[]color.Color{color.NRGBA{0xF4, 0xF4, 0xF4, 0xFF}, QuantizedColor(0x7FFF), color.NRGBA{0xF8, 0xF8, 0xF8, 0xFF}},
 		[]color.Color{color.NRGBA{0xFF, 0xFF, 0xFF, 0xFF}, QuantizedColor(0x7FFF), color.NRGBA{0xF8, 0xF8, 0xF8, 0xFF}},
 	}
 	for _, test := range tests {
@@ -26,6 +28,20 @@ func TestNRGBAToQuantizedColorAndBack(t *testing.T) {
 			t.Errorf("Color %v converted to %v instead of %v as expected.\n", originalValue, actualQuantizedColor, expectedQuantizedColor)
 		} else if color.NRGBAModel.Convert(actualQuantizedColor) != expectedAproximateNRGBA {
 			t.Errorf("Color %v converted to %v instead of %v as expected.\n", actualQuantizedColor, color.NRGBAModel.Convert(actualQuantizedColor), expectedAproximateNRGBA)
+		}
+	}
+}
+
+func TestQuantizedColorValue(t *testing.T) {
+	tests := map[uint8]uint16{
+		0: 0, 1: 0, 2: 0, 3: 0,
+		4: 1, 5: 1, 6: 1, 7: 1,
+		8: 1, 9: 1, 10: 1, 11: 1,
+	}
+	for value, expected := range tests {
+		actual := quantizeColorValue(value)
+		if actual != expected {
+			t.Errorf("Value %08s converted to %05s instead of %05s as expected.\n", strconv.FormatUint(uint64(value), 2), strconv.FormatUint(uint64(actual), 2), strconv.FormatUint(uint64(expected), 2))
 		}
 	}
 }

@@ -8,6 +8,8 @@ import (
 const (
 	quantizeWordWidth = 5
 	quantizeWordMask  = (1 << quantizeWordWidth) - 1
+	shouldRoundUpMask = 1 << ((8 - quantizeWordWidth) - 1)
+	roundUpMask       = shouldRoundUpMask << 1
 )
 
 // QuantizedColorSlice attaches the methods of sort.Interface to []QuantizedColor, sorting in increasing order.
@@ -19,9 +21,9 @@ func (s QuantizedColorSlice) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 // QuantizedColorGenerator creates a new QuantizedColor from a given red, green, and blue value.
 var QuantizedColorGenerator = func(r, g, b uint8) QuantizedColor {
-	quantizedRed := uint16(modifyWordWidth(r, 8, quantizeWordWidth))
-	quantizedGreen := uint16(modifyWordWidth(g, 8, quantizeWordWidth))
-	quantizedBlue := uint16(modifyWordWidth(b, 8, quantizeWordWidth))
+	quantizedRed := quantizeColorValue(r)
+	quantizedGreen := quantizeColorValue(g)
+	quantizedBlue := quantizeColorValue(b)
 	return QuantizedColor((quantizedRed << (quantizeWordWidth + quantizeWordWidth)) | (quantizedGreen << quantizeWordWidth) | quantizedBlue)
 }
 
@@ -96,6 +98,13 @@ func (q QuantizedColor) SwapRedGreen() QuantizedColor {
 // SwapRedBlue returns a new QuantizedColor whose red and blue color components have been swapped.
 func (q QuantizedColor) SwapRedBlue() QuantizedColor {
 	return QuantizedColor(uint16(q.QuantizedBlue())<<(quantizeWordWidth+quantizeWordWidth) | uint16(q.QuantizedGreen())<<quantizeWordWidth | uint16(q.QuantizedRed()))
+}
+
+func quantizeColorValue(value uint8) uint16 {
+	if value&shouldRoundUpMask == shouldRoundUpMask {
+		value = value | roundUpMask
+	}
+	return uint16(modifyWordWidth(value, 8, quantizeWordWidth))
 }
 
 func modifyWordWidth(value uint8, currentWidth uint8, targetWidth uint8) uint8 {
