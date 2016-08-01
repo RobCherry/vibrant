@@ -149,84 +149,84 @@ func main() {
 		fmt.Printf("  %v\n", palette.DarkMutedSwatch().HSL())
 	}
 
-	if resizeImageArea > 0 {
-		inputImage = vibrant.ScaleImageDown(inputImage, resizeImageArea, scalerByName[scalerName])
-	}
-
-	outputImageRectangle := inputImage.Bounds()
-	var outputImage draw.Image = image.NewPaletted(outputImageRectangle, colorPalette)
-
-	draw.Draw(outputImage, outputImage.Bounds(), inputImage, image.ZP, draw.Src)
-
-	if debug {
-		maxPoint := outputImageRectangle.Max
-		var palettedStartPoint image.Point
-
-		if maxPoint.X > maxPoint.Y {
-			// Landscape, display images stacked.
-			palettedStartPoint = image.Pt(0, maxPoint.Y+1)
-			maxPoint.Y *= 2
-			maxPoint.Y++
-		} else {
-			// Square or Portrait, display images side by side.
-			palettedStartPoint = image.Pt(maxPoint.X+1, 0)
-			maxPoint.X *= 2
-			maxPoint.X++
-		}
-
-		swatchesPerRow := int(maximumColorCount)
-		swatchRows := 1
-		targetSwatchDimension := int(math.Max(math.Ceil(float64(maxPoint.X)*0.04), 8))
-		actualSwatchDimension := maxPoint.X / swatchesPerRow
-		for actualSwatchDimension < targetSwatchDimension {
-			if swatchesPerRow%2 == 0 {
-				swatchesPerRow = swatchesPerRow / 2
-			} else {
-				swatchesPerRow = (swatchesPerRow + 1) / 2
-			}
-			actualSwatchDimension = maxPoint.X / swatchesPerRow
-			swatchRows = swatchRows << 1
-		}
-
-		swatchStartY := maxPoint.Y + 1
-		maxPoint.Y = maxPoint.Y + 2 + (actualSwatchDimension * (swatchRows + len(palette.Targets())))
-
-		rgbaImage := image.NewRGBA(image.Rectangle{image.ZP, maxPoint})
-		// Add background...
-		draw.Draw(rgbaImage, rgbaImage.Bounds(), image.NewUniform(image.Black), image.ZP, draw.Src)
-		// Add original...
-		draw.Draw(rgbaImage, inputImage.Bounds(), inputImage, image.ZP, draw.Src)
-		// Add paletted...
-		draw.Draw(rgbaImage, outputImage.Bounds().Add(palettedStartPoint), outputImage, image.ZP, draw.Src)
-		// Add swatches...
-		swatchRectangle := image.Rect(0, 0, actualSwatchDimension, actualSwatchDimension)
-		sort.Sort(hueSwatchSorter(swatches))
-		for i, swatch := range swatches {
-			swatchX := (i % swatchesPerRow) * actualSwatchDimension
-			swatchY := (i / swatchesPerRow) * actualSwatchDimension
-			draw.Draw(rgbaImage, swatchRectangle.Add(image.Pt(swatchX, swatchStartY+swatchY)), image.NewUniform(swatch.Color()), image.ZP, draw.Src)
-		}
-		// Add targets...
-		targetStartY := maxPoint.Y - (actualSwatchDimension * len(palette.Targets()))
-		targetRectangle := image.Rect(0, 0, maxPoint.X, actualSwatchDimension)
-		for i, target := range []*vibrant.Target{vibrant.Vibrant, vibrant.LightVibrant, vibrant.DarkVibrant, vibrant.Muted, vibrant.LightMuted, vibrant.DarkMuted} {
-			swatch := palette.SwatchForTarget(target)
-			var targetColor color.Color
-			if swatch == nil {
-				targetColor = color.Black
-			} else {
-				targetColor = swatch.Color()
-			}
-			draw.Draw(rgbaImage, targetRectangle.Add(image.Pt(0, targetStartY+(i*actualSwatchDimension))), image.NewUniform(targetColor), image.ZP, draw.Src)
-		}
-
-		outputImage = rgbaImage
-	}
-
 	if len(outputFile) > 0 {
+		if resizeImageArea > 0 {
+			inputImage = vibrant.ScaleImageDown(inputImage, resizeImageArea, scalerByName[scalerName])
+		}
+
+		outputImageRectangle := inputImage.Bounds()
+		var outputImage draw.Image = image.NewPaletted(outputImageRectangle, colorPalette)
+
+		draw.Draw(outputImage, outputImage.Bounds(), inputImage, image.ZP, draw.Src)
+
+		if debug {
+			maxPoint := outputImageRectangle.Max
+			var palettedStartPoint image.Point
+
+			if maxPoint.X > maxPoint.Y {
+				// Landscape, display images stacked.
+				palettedStartPoint = image.Pt(0, maxPoint.Y+1)
+				maxPoint.Y *= 2
+				maxPoint.Y++
+			} else {
+				// Square or Portrait, display images side by side.
+				palettedStartPoint = image.Pt(maxPoint.X+1, 0)
+				maxPoint.X *= 2
+				maxPoint.X++
+			}
+
+			swatchesPerRow := int(maximumColorCount)
+			swatchRows := 1
+			targetSwatchDimension := int(math.Max(math.Ceil(float64(maxPoint.X)*0.04), 8))
+			actualSwatchDimension := maxPoint.X / swatchesPerRow
+			for actualSwatchDimension < targetSwatchDimension {
+				if swatchesPerRow%2 == 0 {
+					swatchesPerRow = swatchesPerRow / 2
+				} else {
+					swatchesPerRow = (swatchesPerRow + 1) / 2
+				}
+				actualSwatchDimension = maxPoint.X / swatchesPerRow
+				swatchRows = swatchRows << 1
+			}
+
+			swatchStartY := maxPoint.Y + 1
+			maxPoint.Y = maxPoint.Y + 2 + (actualSwatchDimension * (swatchRows + len(palette.Targets())))
+
+			rgbaImage := image.NewRGBA(image.Rectangle{image.ZP, maxPoint})
+			// Add background...
+			draw.Draw(rgbaImage, rgbaImage.Bounds(), image.NewUniform(image.Black), image.ZP, draw.Src)
+			// Add original...
+			draw.Draw(rgbaImage, inputImage.Bounds(), inputImage, image.ZP, draw.Src)
+			// Add paletted...
+			draw.Draw(rgbaImage, outputImage.Bounds().Add(palettedStartPoint), outputImage, image.ZP, draw.Src)
+			// Add swatches...
+			swatchRectangle := image.Rect(0, 0, actualSwatchDimension, actualSwatchDimension)
+			sort.Sort(hueSwatchSorter(swatches))
+			for i, swatch := range swatches {
+				swatchX := (i % swatchesPerRow) * actualSwatchDimension
+				swatchY := (i / swatchesPerRow) * actualSwatchDimension
+				draw.Draw(rgbaImage, swatchRectangle.Add(image.Pt(swatchX, swatchStartY+swatchY)), image.NewUniform(swatch.Color()), image.ZP, draw.Src)
+			}
+			// Add targets...
+			targetStartY := maxPoint.Y - (actualSwatchDimension * len(palette.Targets()))
+			targetRectangle := image.Rect(0, 0, maxPoint.X, actualSwatchDimension)
+			for i, target := range []*vibrant.Target{vibrant.Vibrant, vibrant.LightVibrant, vibrant.DarkVibrant, vibrant.Muted, vibrant.LightMuted, vibrant.DarkMuted} {
+				swatch := palette.SwatchForTarget(target)
+				var targetColor color.Color
+				if swatch == nil {
+					targetColor = color.Black
+				} else {
+					targetColor = swatch.Color()
+				}
+				draw.Draw(rgbaImage, targetRectangle.Add(image.Pt(0, targetStartY+(i*actualSwatchDimension))), image.NewUniform(targetColor), image.ZP, draw.Src)
+			}
+
+			outputImage = rgbaImage
+		}
+
 		output, err := os.Create(outputFile)
 		if os.IsExist(err) {
-			fmt.Printf("%s alread exists\n", inputFile)
+			fmt.Printf("%s already exists\n", inputFile)
 			os.Exit(1)
 		} else if err != nil {
 			fmt.Println(err)
