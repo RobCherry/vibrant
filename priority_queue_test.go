@@ -11,12 +11,12 @@ var priorityFunction = func(data interface{}) uint32 {
 func TestDefaultPriorityQueue(t *testing.T) {
 	q := NewPriorityQueue(3, priorityFunction)
 	testData := [][]uint32{
-		[]uint32{1, 2, 3},
-		[]uint32{1, 3, 2},
-		[]uint32{2, 1, 3},
-		[]uint32{2, 3, 1},
-		[]uint32{3, 1, 2},
-		[]uint32{3, 2, 1},
+		{1, 2, 3},
+		{1, 3, 2},
+		{2, 1, 3},
+		{2, 3, 1},
+		{3, 1, 2},
+		{3, 2, 1},
 	}
 	for _, data := range testData {
 		if q.Len() != 0 {

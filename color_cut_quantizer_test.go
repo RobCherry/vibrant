@@ -7,15 +7,15 @@ import (
 // A vBox wil only one color can not be split.
 func TestVBox_Split1(t *testing.T) {
 	tests := [][]QuantizedColor{
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(1<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 1<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 1<<3),
 		},
@@ -31,73 +31,73 @@ func TestVBox_Split1(t *testing.T) {
 // Order of the colors in the VBox does not matter because they are sorted before the box is split.
 func TestVBox_Split2(t *testing.T) {
 	tests := [][]QuantizedColor{
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 			QuantizedColorGenerator(4<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(4<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(1<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(4<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(4<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 			QuantizedColorGenerator(1<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 4<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
 			QuantizedColorGenerator(0, 0, 3<<3),
 			QuantizedColorGenerator(0, 0, 1<<3),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 			QuantizedColorGenerator(0, 4<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 4<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 1<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 4<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 4<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 			QuantizedColorGenerator(0, 1<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
 			QuantizedColorGenerator(0, 0, 3<<3),
 			QuantizedColorGenerator(0, 0, 4<<3),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 4<<3),
 			QuantizedColorGenerator(0, 0, 3<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
 			QuantizedColorGenerator(0, 0, 1<<3),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 3<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
@@ -144,19 +144,19 @@ func TestVBox_Split2(t *testing.T) {
 
 func TestVBox_Split3(t *testing.T) {
 	tests := [][]QuantizedColor{
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
@@ -193,19 +193,19 @@ func TestVBox_Split3(t *testing.T) {
 
 func TestVBox_Split4(t *testing.T) {
 	tests := [][]QuantizedColor{
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
@@ -242,19 +242,19 @@ func TestVBox_Split4(t *testing.T) {
 
 func TestVBox_Split5(t *testing.T) {
 	tests := [][]QuantizedColor{
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(1<<3, 0, 0),
 			QuantizedColorGenerator(2<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 			QuantizedColorGenerator(3<<3, 0, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 1<<3, 0),
 			QuantizedColorGenerator(0, 2<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 			QuantizedColorGenerator(0, 3<<3, 0),
 		},
-		[]QuantizedColor{
+		{
 			QuantizedColorGenerator(0, 0, 1<<3),
 			QuantizedColorGenerator(0, 0, 2<<3),
 			QuantizedColorGenerator(0, 0, 3<<3),
@@ -291,36 +291,36 @@ func TestVBox_Split5(t *testing.T) {
 
 func TestVBox_Volume(t *testing.T) {
 	tests := map[uint32][][]QuantizedColor{
-		1: [][]QuantizedColor{
-			[]QuantizedColor{
+		1: {
+			{
 				QuantizedColorGenerator(0, 0, 1<<3),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(0, 0, 1<<3),
 				QuantizedColorGenerator(0, 0, 1<<3),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(1<<3, 2<<3, 3<<3),
 			},
 		},
-		2: [][]QuantizedColor{
-			[]QuantizedColor{
+		2: {
+			{
 				QuantizedColorGenerator(0, 0, 0),
 				QuantizedColorGenerator(0, 0, 1<<3),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(0, 0, 1<<3),
 				QuantizedColorGenerator(1<<3, 0, 1<<3),
 			},
 		},
-		4: [][]QuantizedColor{
-			[]QuantizedColor{
+		4: {
+			{
 				QuantizedColorGenerator(1<<3, 0, 0),
 				QuantizedColorGenerator(0, 0, 1<<3),
 			},
 		},
-		8: [][]QuantizedColor{
-			[]QuantizedColor{
+		8: {
+			{
 				QuantizedColorGenerator(1<<3, 0, 0),
 				QuantizedColorGenerator(0, 1<<3, 0),
 				QuantizedColorGenerator(0, 0, 1<<3),
@@ -340,52 +340,52 @@ func TestVBox_Volume(t *testing.T) {
 func TestVBox_Swatch(t *testing.T) {
 	tests := map[RGBAInt][][]QuantizedColor{
 		// vBox colors are quantized, so we need to adjust the expected values to account for it.
-		RGBAInt(0xFFF80000): [][]QuantizedColor{
-			[]QuantizedColor{
+		RGBAInt(0xFFF80000): {
+			{
 				QuantizedColorGenerator(255, 0, 0),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(255, 0, 0),
 				QuantizedColorGenerator(255, 0, 0),
 			},
 		},
-		RGBAInt(0xFF00F800): [][]QuantizedColor{
-			[]QuantizedColor{
+		RGBAInt(0xFF00F800): {
+			{
 				QuantizedColorGenerator(0, 255, 0),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(0, 255, 0),
 				QuantizedColorGenerator(0, 255, 0),
 			},
 		},
-		RGBAInt(0xFF0000F8): [][]QuantizedColor{
-			[]QuantizedColor{
+		RGBAInt(0xFF0000F8): {
+			{
 				QuantizedColorGenerator(0, 0, 255),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(0, 0, 255),
 				QuantizedColorGenerator(0, 0, 255),
 			},
 		},
-		RGBAInt(0xFFF8F400): [][]QuantizedColor{
-			[]QuantizedColor{
+		RGBAInt(0xFFF8F400): {
+			{
 				QuantizedColorGenerator(0xFF, 0xFF, 0),
 				QuantizedColorGenerator(0xFF, 0xF0, 0),
 			},
-			[]QuantizedColor{
+			{
 				QuantizedColorGenerator(0xFF, 0xF8, 0),
 				QuantizedColorGenerator(0xFF, 0xF0, 0),
 			},
 		},
-		RGBAInt(0xFFF2F600): [][]QuantizedColor{
-			[]QuantizedColor{
+		RGBAInt(0xFFF2F600): {
+			{
 				QuantizedColorGenerator(0xF0, 0xFF, 0),
 				QuantizedColorGenerator(0xF0, 0xFF, 0),
 				QuantizedColorGenerator(0xFF, 0xF0, 0),
 			},
 		},
-		RGBAInt(0xFFF1F700): [][]QuantizedColor{
-			[]QuantizedColor{
+		RGBAInt(0xFFF1F700): {
+			{
 				QuantizedColorGenerator(0xF0, 0xFF, 0),
 				QuantizedColorGenerator(0xF0, 0xFF, 0),
 				QuantizedColorGenerator(0xF0, 0xFF, 0),

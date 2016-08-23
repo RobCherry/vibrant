@@ -57,7 +57,7 @@ func ExamplePaletteBuilder_resizeImageArea() {
 
 func TestPalette_Swatches(t *testing.T) {
 	tests := map[string]map[uint32]Uint32Slice{
-		"test_files/1.jpg": map[uint32]Uint32Slice{
+		"test_files/1.jpg": {
 			16: Uint32Slice([]uint32{
 				0xFF2E222B,
 				0xFF433534,
@@ -143,7 +143,7 @@ func TestPalette_Swatches(t *testing.T) {
 				0xFF9F49BB,
 			}),
 		},
-		"test_files/2.jpg": map[uint32]Uint32Slice{
+		"test_files/2.jpg": {
 			16: Uint32Slice([]uint32{
 				0xFF20201D,
 				0xFFDCDEE0,
@@ -229,7 +229,7 @@ func TestPalette_Swatches(t *testing.T) {
 				0xFFC85B38,
 			}),
 		},
-		"test_files/3.jpg": map[uint32]Uint32Slice{
+		"test_files/3.jpg": {
 			16: Uint32Slice([]uint32{
 				0xFFF0EBD7,
 				0xFF073125,
@@ -315,7 +315,7 @@ func TestPalette_Swatches(t *testing.T) {
 				0xFFA4CAB4,
 			}),
 		},
-		"test_files/4.jpg": map[uint32]Uint32Slice{
+		"test_files/4.jpg": {
 			16: Uint32Slice([]uint32{
 				0xFF151717,
 				0xFF1B1923,
