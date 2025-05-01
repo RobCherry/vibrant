@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestDefaultFilter_isAllowed(t *testing.T) {
+func TestDefaultFilter_IsAllowed(t *testing.T) {
 	testData := map[color.Color]bool{
 		HSL{0, 1.0, 0.049, 255}: false,
 		HSL{0, 1.0, 0.050, 255}: false,
@@ -16,7 +16,7 @@ func TestDefaultFilter_isAllowed(t *testing.T) {
 		HSL{0, 1.0, 0.951, 255}: false,
 	}
 	for c, expected := range testData {
-		if expected != DefaultFilter.isAllowed(c) {
+		if expected != DefaultFilter.IsAllowed(c) {
 			if expected {
 				t.Errorf("Expected color %v to be allowed.\n", c)
 			} else {
